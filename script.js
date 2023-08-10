@@ -30,23 +30,30 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
 
 
 
-function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
-     
+function formSubmission(document, /*list,*/ pilot, copilot, fuelLevel, cargoLevel) {
+  document.innerHTML = `
+            <ol>
+              <li id="pilotStatus" data-testid="pilotStatus">Pilot ${pilot} Ready</li>
+              <li id="copilotStatus" data-testid="copilotStatus">Co-pilot ${copilot} Ready</li>
+              <li id="fuelStatus" data-testid="fuelStatus">Fuel level ${fuelLevel} for launch</li>
+              <li id="cargoStatus" data-testid="cargoStatus">Cargo mass ${cargoLevel} for launch</li>
+            </ol>
+  `;
   
-}
+};
 
 
 
 async function myFetch() {
   let planetsReturned;
+  let data;
 
-  planetsReturned = await fetch('https://handlers.education.launchcode.org/static/planets.json').then( function() {
-
-
- // return planetsReturned;
+  planetsReturned = await fetch('https://handlers.education.launchcode.org/static/planets.json').then( function(response) {
+    data = response.json();
+  
       });
-     
-  return planetsReturned;
+      
+return data;
 }
 
 
@@ -68,6 +75,7 @@ window.addEventListener("load", function() {
     let fuelLevel;
     let cargoMass;
     let missionTarget = document.getElementById('missionTarget');
+    let varArray = [pilotName, copilot, fuelLevel, cargoMass];
     
   
   
@@ -100,9 +108,6 @@ window.addEventListener("load", function() {
           };
         };
 
-
-  
-  
         
         if (count != inputArray.length){
           alert("All fields are required!")
@@ -114,15 +119,18 @@ window.addEventListener("load", function() {
         if ((fuelLevel < 10000) || (cargoMass > 10000)){
           document.getElementById('launchStatus').style.color = "red";
           document.getElementById('launchStatus').innerHTML = "Shuttle not ready for launch";
+
           let faultyItems = document.getElementById('faultyItems');
           faultyItems.style.visibility = "visible";
-          let fuel = "";
-          let cargo ="";
+
           let tooHigh = "too high";
           let tooLow = "too low";
   
           if ((fuelLevel < 10000) && (cargoMass > 10000)){
           document.getElementById('launchStatus').style.color = "#C7254E";
+
+         // formSubmission(faultyItems, pilot, copilot, tooLow, tooHigh);
+
           faultyItems.innerHTML = `
           <ol>
                       <li id="pilotStatus" data-testid="pilotStatus">Pilot ${pilotName} Ready</li>
@@ -131,7 +139,10 @@ window.addEventListener("load", function() {
                       <li id="cargoStatus" data-testid="cargoStatus">Cargo mass ${tooHigh} for launch</li>
                   </ol>
           `;
-  
+ 
+
+
+
         }else if(fuelLevel < 10000){
           document.getElementById('launchStatus').style.color = "red";
           faultyItems.innerHTML = `
@@ -178,33 +189,26 @@ window.addEventListener("load", function() {
        
     });
   
-    /*
+
+
+
    let listedPlanets;
    // Set listedPlanetsResponse equal to the value returned by calling myFetch()
    let listedPlanetsResponse = myFetch();
-   
-   listedPlanetsResponse.then(function (response) {
-  
-       listedPlanets = response.json();
-       
-       
-       
-   }).then(function (json) {
-        
+   listedPlanetsResponse.then(function (result) {
+       listedPlanets = result;
        console.log(listedPlanets);
-
-  
-              // Below this comment call the appropriate helper functions to pick a planet fom the list of planets and add that information to your destination.
-    
-              let pick = pickPlanet(json)
-
-              addDestinationInfo(missionTarget, json[pick].name, json[pick].diameter, json[pick].star, json[pick].distance, json[pick].moons, json[pick].imageUrl)
-
-
-
-
+     
+   }).then(function () {
+       console.log(listedPlanets);
+       // Below this comment call the appropriate helper functions to pick a planet fom the list of planets and add that information to your destination.
+       let pick = pickPlanet(listedPlanets);
+       
+       addDestinationInfo(missionTarget, listedPlanets[pick].name, listedPlanets[pick].diameter, listedPlanets[pick].star, listedPlanets[pick].distance, listedPlanets[pick].moons, listedPlanets[pick].image);
    })
-   */
+
+
+/*
 
    fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response){
     response.json().then(function(json){
@@ -214,5 +218,5 @@ window.addEventListener("load", function() {
 
    })
    
-
+*/
   });
