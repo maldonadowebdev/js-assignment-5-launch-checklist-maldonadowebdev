@@ -2,19 +2,18 @@
 require('isomorphic-fetch');
 
 function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
-   // Here is the HTML formatting for our mission target div.
-   /*
-                <h2>Mission Destination</h2>
-                <ol>
-                    <li>Name: </li>
-                    <li>Diameter: </li>
-                    <li>Star: ${star}</li>
-                    <li>Distance from Earth: </li>
-                    <li>Number of Moons: </li>
-                </ol>
-                <img src="">
-   */
-}
+    document.innerHTML =
+                 `<h2>Mission Destination</h2>
+                 <ol>
+                     <li>Name: ${name}</li>
+                     <li>Diameter: ${diameter}</li>
+                     <li>Star: ${star}</li>
+                     <li>Distance from Earth: ${distance}</li>
+                     <li>Number of Moons: ${moons}</li>
+                 </ol>
+                 <img src="${imageUrl}">`
+    
+  };
 
 function validateInput(testInput) {
  
@@ -27,23 +26,34 @@ function validateInput(testInput) {
        }
 };
 
-function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
-   
+function formSubmission(document, /*list,*/ pilot, copilot, fuelLevel, cargoLevel) {
+    document.innerHTML = `
+              <ol>
+                <li id="pilotStatus" data-testid="pilotStatus">Pilot ${pilot} Ready</li>
+                <li id="copilotStatus" data-testid="copilotStatus">Co-pilot ${copilot} Ready</li>
+                <li id="fuelStatus" data-testid="fuelStatus">Fuel level ${fuelLevel} for launch</li>
+                <li id="cargoStatus" data-testid="cargoStatus">Cargo mass ${cargoLevel} for launch</li>
+              </ol>
+    `;
+    
+  };
 
-}
-
-async function myFetch() {
+  async function myFetch() {
     let planetsReturned;
-
-    planetsReturned = await fetch().then( function(response) {
+    let data;
+  
+    planetsReturned = await fetch('https://handlers.education.launchcode.org/static/planets.json').then( function(response) {
+      data = response.json();
+    
         });
+        
+  return data;
+  }
 
-    return planetsReturned;
-}
-
-function pickPlanet(planets) {
+  function pickPlanet(planets) {
     let selected = Math.floor(Math.random() * planets.length);
-}
+    return selected;
+  }
 
 module.exports.addDestinationInfo = addDestinationInfo;
 module.exports.validateInput = validateInput;
