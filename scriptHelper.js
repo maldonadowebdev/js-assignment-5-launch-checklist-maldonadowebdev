@@ -26,18 +26,18 @@ function validateInput(testInput) {
        }
 };
 
-function formSubmission(document, /*list,*/ pilot, copilot, fuelLevel, cargoLevel) {
+//I removed the "list" parameter between document and pilot from the formSubmission function below.
+function formSubmission(document, pilot, copilot, fuelLevel, cargoLevel) {
     document.innerHTML = `
               <ol>
                 <li id="pilotStatus" data-testid="pilotStatus">Pilot ${pilot} Ready</li>
                 <li id="copilotStatus" data-testid="copilotStatus">Co-pilot ${copilot} Ready</li>
                 <li id="fuelStatus" data-testid="fuelStatus">Fuel level ${fuelLevel} for launch</li>
                 <li id="cargoStatus" data-testid="cargoStatus">Cargo mass ${cargoLevel} for launch</li>
-              </ol>
-    `;
-    
+              </ol>`;   
   };
 
+  
   async function myFetch() {
     let planetsReturned;
     let data;
