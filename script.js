@@ -1,71 +1,5 @@
 
 
-function validateInput(testInput) {
-         
-  if (!testInput){
-      return "Empty";
-     }else if(isNaN(testInput) == false){
-      return "Is a Number";
-     }else{
-      return "Not a Number";
-     }
-
-};
-
-function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
-  document.innerHTML =
-               `<h2>Mission Destination</h2>
-               <ol>
-                   <li>Name: ${name}</li>
-                   <li>Diameter: ${diameter}</li>
-                   <li>Star: ${star}</li>
-                   <li>Distance from Earth: ${distance}</li>
-                   <li>Number of Moons: ${moons}</li>
-               </ol>
-               <img src="${imageUrl}">`
-  
-};
-
-
-
-
-
-function formSubmission(document, /*list,*/ pilot, copilot, fuelLevel, cargoLevel) {
-  document.innerHTML = `
-            <ol>
-              <li id="pilotStatus" data-testid="pilotStatus">Pilot ${pilot} Ready</li>
-              <li id="copilotStatus" data-testid="copilotStatus">Co-pilot ${copilot} Ready</li>
-              <li id="fuelStatus" data-testid="fuelStatus">Fuel level ${fuelLevel} for launch</li>
-              <li id="cargoStatus" data-testid="cargoStatus">Cargo mass ${cargoLevel} for launch</li>
-            </ol>
-  `;
-  
-};
-
-
-
-async function myFetch() {
-  let planetsReturned;
-  let data;
-
-  planetsReturned = await fetch('https://handlers.education.launchcode.org/static/planets.json').then( function(response) {
-    data = response.json();
-  
-      });
-      
-return data;
-}
-
-
-
-  
-function pickPlanet(planets) {
-  let selected = Math.floor(Math.random() * planets.length);
-  return selected;
-}
-
-
-
 window.addEventListener("load", function() {
   
     let form = document.querySelector("form");
@@ -79,16 +13,7 @@ window.addEventListener("load", function() {
     
   
   
- 
-
-
-  
-  
-    form.addEventListener("submit", function(event) {
-        
-      
-       
-        
+    form.addEventListener("submit", function(event) { 
 
         pilotName = document.querySelector("input[name=pilotName]");
         pilotName = pilotName.value; 
@@ -208,15 +133,5 @@ window.addEventListener("load", function() {
    })
 
 
-/*
 
-   fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response){
-    response.json().then(function(json){
-      let pick = pickPlanet(json);
-    addDestinationInfo(missionTarget, json[pick].name, json[pick].diameter, json[pick].star, json[pick].distance, json[pick].moons, json[pick].image);
-    })
-
-   })
-   
-*/
   });
